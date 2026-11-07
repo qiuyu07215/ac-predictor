@@ -37,5 +37,11 @@
   "estimator_reached_rating": "到達レーティング",
   "estimator_target_rating": "目標レーティング",
   "estimator_required_performance": "必要パフォーマンス",
-  "estimator_tweet_handle": "AtCoderのハンドルネーム"
+  "estimator_tweet_handle": "AtCoderのハンドルネーム",
+
+  "notice_aperf_estimated": "上流の予測データ (aperf) が取得できないため、各参加者の現在のレーティングから推定した近似値を表示しています (過去のコンテストでは通常の予測との差は平均 10〜15 程度)。",
+  "notice_aperf_estimated_heuristic": "上流の予測データ (aperf) が取得できないため、各参加者の現在のレーティングから推定した近似値を表示しています。ヒューリスティックコンテストでは誤差が大きめです (過去のコンテストで平均 50 程度)。",
+  "notice_load_failed": "ac-predictor の予測データの読み込みに失敗しました。",
+  "standings_not_ready_label": "予測データの準備中",
+  "standings_load_failed_label": "予測データの読み込みに失敗しました (順位表上部の通知を参照)"
 }

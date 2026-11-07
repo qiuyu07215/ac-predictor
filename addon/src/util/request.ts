@@ -138,6 +138,15 @@ export async function fetchAtCoderJson<T = unknown>(path: string): Promise<T> {
   return await response.json() as T;
 }
 
+export async function fetchAtCoderText(path: string): Promise<string> {
+  const url = new URL(path, location.origin).toString();
+  const response = await fetch(url, { credentials: "same-origin" });
+  if (!response.ok) {
+    throw new Error(`${response.status} ${url}`);
+  }
+  return await response.text();
+}
+
 /**
  * jQuery ajax 的 settings.url 可能是相对路径，也可能是（经代理改写后的）绝对地址。
  * 同源时统一转换为 "pathname + search"，以便与各处理器中的正则匹配。

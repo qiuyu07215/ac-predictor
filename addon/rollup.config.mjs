@@ -7,6 +7,9 @@ import packageJson from "./package.json" with { type: "json" };
 const namespace = "https://github.com/qiuyu07215/ac-predictor";
 const repository = "https://github.com/qiuyu07215/ac-predictor";
 const downloadURL = `${repository}/releases/latest/download/ac-predictor-zh.user.js`;
+// 中文版自身的修订号：上游版本号不变时，每次发布中文版都要 +1，油猴才会检测到更新
+const zhRevision = 2;
+const userScriptVersion = `${packageJson.version}.${zhRevision}`;
 
 // - atcoder.jp 本站
 // - 本地反向代理 / 镜像（localhost、127.0.0.1 任意端口）。脚本内部会再检查页面是否为 AtCoder 页面，其它本地页面不受影响。
@@ -16,7 +19,7 @@ const userScriptBanner = `
 // @name         ${packageJson.name}-zh
 // @name:zh-CN   ac-predictor 中文版
 // @namespace    ${namespace}
-// @version      ${packageJson.version}
+// @version      ${userScriptVersion}
 // @description  ${packageJson.description}
 // @author       ${packageJson.author}
 // @license      ${packageJson.license}

@@ -24,6 +24,14 @@ function f(n: number): number {
 }
 
 /**
+ * 参加回数が少ないことによるレーティングの補正量 (アルゴリズム)
+ * @param {Number} [n] count of participated rated contest
+ */
+export function algRatingCorrection(n: number): number {
+    return f(n);
+}
+
+/**
  * calculate unpositivized rating from performance history
  * @param {Number[]} [history] performance history with ascending order
  * @returns {Number} unpositivized rating

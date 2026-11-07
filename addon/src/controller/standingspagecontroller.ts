@@ -1,5 +1,5 @@
-import getAPerfs from "../data/aperfs";
-import getContestDetailsList from "../data/contestdetails";
+import { getAPerfsOrEstimate } from "../data/aperfs";
+import { resolveContestDetails } from "../data/contestdetails";
 import getHistory from "../data/history";
 import getResults from "../data/results";
 import getStandings from "../data/standings";
@@ -20,6 +20,8 @@ import hasOwnProperty from "../util/hasOwnProperty";
 import isDebugMode from "../util/isdebugmode";
 import StandingsLoadingView from "../view/standingsloading";
 import StandingsTableView from "../view/standingstable";
+import { getTranslation } from "../i18n/i18n";
+import { clearLoadError, errorToString, showAPerfNotice, showLoadError } from "./notices";
 
 type RatingProviderInfo = { provider: RatingProvider, lazy: boolean };
 
@@ -33,6 +35,7 @@ export default class StandingsPageController {
   isRatedMaps = new Map<string, boolean>();
 
   standingsTableView?: StandingsTableView;
+  loadError?: string;
 
   public async register() {
     const loading = StandingsLoadingView.Get();
@@ -40,15 +43,21 @@ export default class StandingsPageController {
   }
 
   private async initialize() {
+    try {
+      await this.initializeInner();
+    }
+    catch (e) {
+      showLoadError(e);
+    }
+  }
+
+  private async initializeInner() {
     const contestScreenName = getContestScreenName();
 
-    const contestDetailsList = await getContestDetailsList();    
-    const contestDetails = contestDetailsList.find(details => details.contestScreenName == contestScreenName);
-    if (contestDetails === undefined) {
-      throw new Error("contest details not found");
-    }
-    this.contestDetails = contestDetails;
-    this.contestDetailsMap = new Map(contestDetailsList.map(details => [details.contestScreenName, details]));
+    const resolved = await resolveContestDetails(contestScreenName);
+    if (resolved === null) return;
+    this.contestDetails = resolved.contestDetails;
+    this.contestDetailsMap = new Map(resolved.contestDetailsList.map(details => [details.contestScreenName, details]));
 
     if (this.contestDetails.beforeContest(new Date())) return;
     if (getConfig("hideDuringContest") && this.contestDetails.duringContest(new Date())) return;
@@ -57,8 +66,9 @@ export default class StandingsPageController {
     if (getConfig("hideUntilFixed") && !standings.data.Fixed) return;
 
     this.standingsTableView = StandingsTableView.Get(async userScreenName => {
-      if (!this.ratingProvider) return { "type": "error", "message": "ratingProvider missing" };
-      if (!this.performanceProvider) return { "type": "error", "message": "performanceProvider missing" };
+      if (!this.ratingProvider || !this.performanceProvider) {
+        return { "type": "error", "message": this.loadError ? `${getTranslation("standings_load_failed_label")}: ${this.loadError}` : getTranslation("standings_not_ready_label") };
+      }
       if (!this.isRatedMaps) return { "type": "error", "message": "isRatedMapping missing" };
       if (!this.oldRatings) return { "type": "error", "message": "oldRatings missing" };
       if (!this.oldRatings.has(userScreenName)) return { "type": "error", "message": `oldRating not found for ${userScreenName}` };
@@ -84,12 +94,22 @@ export default class StandingsPageController {
         return { type: "unrated", oldRating, performance: positivizedPerformance };
       }
     });
-    this.standingsTableView.onRefreshed(async () => {
+    this.standingsTableView.onRefreshed(() => this.refresh());
+    await this.refresh();
+  }
+
+  private async refresh() {
+    try {
       await this.updateData();
-      this.standingsTableView!.update();
-    });
-    await this.updateData();
-    this.standingsTableView.update();
+      this.loadError = undefined;
+      clearLoadError();
+    }
+    catch (e) {
+      // 之前已成功加载过时保留旧数据继续显示，只在上方提示错误
+      this.loadError = errorToString(e);
+      showLoadError(e);
+    }
+    this.standingsTableView!.update();
   }
 
   private async updateData() {
@@ -117,7 +137,9 @@ export default class StandingsPageController {
       }
     }
     if (basePerformanceProvider === undefined) {
-      const aperfsDict = await getAPerfs(this.contestDetails.contestScreenName);
+      const aperfsResult = await getAPerfsOrEstimate(this.contestDetails, standings);
+      showAPerfNotice(this.contestDetails, aperfsResult);
+      const aperfsDict = aperfsResult.aperfs;
       const defaultAPerf = this.contestDetails.defaultAPerf;
       const normalizedRanks = normalizeRank(standings.toRanks(true, this.contestDetails.contestType));
       const aperfsList = standings.toRatedUsers(this.contestDetails.contestType).map(user => hasOwnProperty(aperfsDict, user) ? aperfsDict[user] : defaultAPerf);

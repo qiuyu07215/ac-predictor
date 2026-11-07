@@ -37,5 +37,11 @@
   "estimator_reached_rating": "reached rating",
   "estimator_target_rating": "target rating",
   "estimator_required_performance": "required performance",
-  "estimator_tweet_handle": "AtCoder ID"
+  "estimator_tweet_handle": "AtCoder ID",
+
+  "notice_aperf_estimated": "Upstream prediction data (aperf) is unavailable. Performances and rating changes are approximations estimated from each participant's current rating (on past contests they differ from the normal prediction by about 10-15 on average).",
+  "notice_aperf_estimated_heuristic": "Upstream prediction data (aperf) is unavailable. Performances and rating changes are approximations estimated from each participant's current rating. For heuristic contests the error is larger (about 50 on average on past contests).",
+  "notice_load_failed": "ac-predictor failed to load prediction data.",
+  "standings_not_ready_label": "prediction data not ready",
+  "standings_load_failed_label": "failed to load prediction data (see the notice above the standings)"
 }

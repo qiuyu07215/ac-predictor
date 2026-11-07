@@ -12,6 +12,11 @@ pnpm bundle
 > pnpm / npm 会读取环境变量 `HTTP_PROXY` / `HTTPS_PROXY`，如果安装依赖时网络不通，可先设置为本地代理，例如
 > `HTTPS_PROXY=http://127.0.0.1:7890 pnpm install`。
 
+## 发布
+
+上游版本号（`package.json` 的 `version`）不变时，发布新版前需把 `rollup.config.mjs` 中的 `zhRevision` 加 1，
+用户脚本版本号为 `<上游版本>.<zhRevision>`，否则油猴不会检测到更新。
+
 ## 测试
 
 ```

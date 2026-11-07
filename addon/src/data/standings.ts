@@ -105,6 +105,15 @@ class StandingsWrapper {
     return res;
   }
 
+  /** 每位选手赛前的 Rating（正值化后）与参赛次数，用于在缺少 aperf 数据时估算 */
+  toRatingInfos(): Map<string, { rating: number, competitions: number }> {
+    const res = new Map<string, { rating: number, competitions: number }>();
+    for (const data of this.data.StandingsData) {
+      res.set(data.UserScreenName, { rating: this.data.Fixed ? data.OldRating : data.Rating, competitions: data.Competitions });
+    }
+    return res;
+  }
+
   toScores(): Scores {
     const res = new Map<string, { score: number, penalty: number }>();
     for (const data of this.data.StandingsData) {

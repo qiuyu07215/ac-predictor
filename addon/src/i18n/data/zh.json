@@ -37,5 +37,11 @@
   "estimator_reached_rating": "可达 Rating",
   "estimator_target_rating": "目标 Rating",
   "estimator_required_performance": "所需表现分",
-  "estimator_tweet_handle": "AtCoder ID"
+  "estimator_tweet_handle": "AtCoder ID",
+
+  "notice_aperf_estimated": "上游预测数据（aperf）暂缺，当前表现分与 Rating 变化是根据各选手现有 Rating 推算的近似值（用历史比赛实测，与正常预测平均相差约 10～15 分）。",
+  "notice_aperf_estimated_heuristic": "上游预测数据（aperf）暂缺，当前表现分与 Rating 变化是根据各选手现有 Rating 推算的近似值。启发式赛误差较大（用历史比赛实测，与正常预测平均相差约 50 分），仅供参考。",
+  "notice_load_failed": "ac-predictor 加载预测数据失败。",
+  "standings_not_ready_label": "预测数据尚未就绪",
+  "standings_load_failed_label": "预测数据加载失败（原因见榜单上方提示）"
 }
