@@ -1,9 +1,10 @@
 // @ts-nocheck
 
 import getHistory from "../data/history";
+import { getTranslation, substitute } from "../i18n/i18n";
 import { calcAlgRatingFromHistory, calcRequiredPerformance, positivizeRating, unpositivizeRating } from "../domain/rating";
 
-var dom$1 = "<div id=\"estimator-alert\"></div>\n<div class=\"row\">\n\t<div class=\"input-group\">\n\t\t<span class=\"input-group-addon\" id=\"estimator-input-desc\"></span>\n\t\t<input type=\"number\" class=\"form-control\" id=\"estimator-input\">\n\t</div>\n</div>\n<div class=\"row\">\n\t<div class=\"input-group\">\n\t\t<span class=\"input-group-addon\" id=\"estimator-res-desc\"></span>\n\t\t<input class=\"form-control\" id=\"estimator-res\" disabled=\"disabled\">\n\t\t<span class=\"input-group-btn\">\n\t\t\t<button class=\"btn btn-default\" id=\"estimator-toggle\">入替</button>\n\t\t</span>\n\t</div>\n</div>\n<div class=\"row\" style=\"margin: 10px 0px;\">\n\t<a class=\"btn btn-default col-xs-offset-8 col-xs-4\" rel=\"nofollow\" onclick=\"window.open(encodeURI(decodeURI(this.href)),'twwindow','width=550, height=450, personalbar=0, toolbar=0, scrollbars=1'); return false;\" id=\"estimator-tweet\">ツイート</a>\n</div>";
+var dom$1 = "<div id=\"estimator-alert\"></div>\n<div class=\"row\">\n\t<div class=\"input-group\">\n\t\t<span class=\"input-group-addon\" id=\"estimator-input-desc\"></span>\n\t\t<input type=\"number\" class=\"form-control\" id=\"estimator-input\">\n\t</div>\n</div>\n<div class=\"row\">\n\t<div class=\"input-group\">\n\t\t<span class=\"input-group-addon\" id=\"estimator-res-desc\"></span>\n\t\t<input class=\"form-control\" id=\"estimator-res\" disabled=\"disabled\">\n\t\t<span class=\"input-group-btn\">\n\t\t\t<button class=\"btn btn-default\" id=\"estimator-toggle\">{estimator_swap}</button>\n\t\t</span>\n\t</div>\n</div>\n<div class=\"row\" style=\"margin: 10px 0px;\">\n\t<a class=\"btn btn-default col-xs-offset-8 col-xs-4\" rel=\"nofollow\" onclick=\"window.open(encodeURI(decodeURI(this.href)),'twwindow','width=550, height=450, personalbar=0, toolbar=0, scrollbars=1'); return false;\" id=\"estimator-tweet\">{estimator_tweet}</a>\n</div>";
  
 class EstimatorModel {
   inputDesc: string;
@@ -34,8 +35,8 @@ class EstimatorModel {
 class CalcRatingModel extends EstimatorModel {
     constructor(inputValue: number, perfHistory: number[]) {
         super(inputValue, perfHistory);
-        this.inputDesc = "パフォーマンス";
-        this.resultDesc = "到達レーティング";
+        this.inputDesc = getTranslation("estimator_performance");
+        this.resultDesc = getTranslation("estimator_reached_rating");
     }
     // @ts-ignore
     toggle() {
@@ -49,8 +50,8 @@ class CalcRatingModel extends EstimatorModel {
 class CalcPerfModel extends EstimatorModel {
   constructor(inputValue: number, perfHistory: number[]) {
     super(inputValue, perfHistory);
-    this.inputDesc = "目標レーティング";
-    this.resultDesc = "必要パフォーマンス";
+    this.inputDesc = getTranslation("estimator_target_rating");
+    this.resultDesc = getTranslation("estimator_required_performance");
   }
   // @ts-ignore
   toggle() {
@@ -103,8 +104,8 @@ class EstimatorElement {
   document: string
   constructor() {
     this.id = "estimator";
-    this.title = "Estimator";
-    this.document = dom$1;
+    this.title = getTranslation("estimator_title");
+    this.document = substitute(dom$1);
   }
   async afterOpen() {
     const estimatorInputSelector = document.getElementById("estimator-input")! as HTMLInputElement;
@@ -141,8 +142,8 @@ class EstimatorElement {
       document.getElementById("estimator-res-desc")!.innerText = model.resultDesc;
       estimatorInputSelector.value = String(roundedInput);
       estimatorResultSelector.value = String(roundedResult);
-      const tweetStr = `AtCoderのハンドルネーム: ${userScreenName}\n${model.inputDesc}: ${roundedInput}\n${model.resultDesc}: ${roundedResult}\n`;
-      document.getElementById("estimator-tweet")!.href = GetEmbedTweetLink(tweetStr, "https://greasyfork.org/ja/scripts/369954-ac-predictor");
+      const tweetStr = `${getTranslation("estimator_tweet_handle")}: ${userScreenName}\n${model.inputDesc}: ${roundedInput}\n${model.resultDesc}: ${roundedResult}\n`;
+      document.getElementById("estimator-tweet")!.href = GetEmbedTweetLink(tweetStr, "https://github.com/qiuyu07215/ac-predictor");
     }
   };
   GetHTML() {

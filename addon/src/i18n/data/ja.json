@@ -6,11 +6,36 @@
   "config_useFinalResultOnVirtual_label": "バーチャル参加時のパフォーマンス計算に最終結果を用いる",
   "config_useFinalResultOnVirtual_description": "チェックを入れると、当時の参加者が既にコンテストを終えているものとしてパフォーマンスを計算します。",
 
+  "config_language_label": "表示言語",
+  "config_language_auto": "AtCoder の表示言語に合わせる",
+  "config_language_reload_hint": "言語の変更はページを再読み込みすると反映されます。",
+
+  "config_network_header": "ネットワーク / プロキシ",
+  "config_dataSource_label": "カスタムデータソース URL",
+  "config_dataSource_description": "任意。ac-predictor-data のファイルを直接返すミラーやリバースプロキシ (例: http://127.0.0.1:8080/) を指定すると最優先で使用します。空欄の場合は data.ac-predictor.com、raw.githubusercontent.com、cdn.jsdelivr.net の順に試します。注意: Clash などの HTTP プロキシのポートではありません。ブラウザ/システムのプロキシは自動的に使われます。",
+  "config_dataSource_placeholder": "空欄で組み込みのデータソースを使用",
+  "config_requestTimeout_label": "データソースのタイムアウト (秒)",
+  "config_requestTimeout_description": "この時間内に応答がない場合、次のデータソースを試します。プロキシが遅い場合は大きくしてください。",
+
   "config_dropdown": "ac-predictor 設定",
+  "config_close": "閉じる",
 
   "standings_performance_column_label": "perf",
   "standings_rate_change_column_label": "レート変化",
-  
+
   "standings_click_to_compute_label": "クリックして計算",
-  "standings_not_provided_label": "提供不可"
+  "standings_not_provided_label": "提供不可",
+  "standings_unrated_label": "unrated",
+  "standings_loading_label": "読み込み中...",
+  "standings_error_label": "読み込みエラー",
+  "standings_hover_for_details_label": "(ホバーで詳細を表示)",
+
+  "estimator_title": "Estimator",
+  "estimator_swap": "入替",
+  "estimator_tweet": "ツイート",
+  "estimator_performance": "パフォーマンス",
+  "estimator_reached_rating": "到達レーティング",
+  "estimator_target_rating": "目標レーティング",
+  "estimator_required_performance": "必要パフォーマンス",
+  "estimator_tweet_handle": "AtCoderのハンドルネーム"
 }

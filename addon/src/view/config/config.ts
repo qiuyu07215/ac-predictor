@@ -35,6 +35,63 @@ export default class ConfigView {
     });
   }
 
+  public addSelect<T extends string>(label: string, val: T, options: { value: T, label: string }[], description: string | null, handler: (val: T) => void) {
+    const settingsRow = this.getSettingsRow();
+
+    const div = document.createElement("div");
+    div.classList.add("form-group");
+    const labelElem = document.createElement("label");
+    labelElem.append(label);
+    const select = document.createElement("select");
+    select.classList.add("form-control");
+    for (const option of options) {
+      const optionElem = document.createElement("option");
+      optionElem.value = option.value;
+      optionElem.textContent = option.label;
+      optionElem.selected = option.value === val;
+      select.append(optionElem);
+    }
+    div.append(labelElem, select);
+    this.appendDescription(div, description);
+    settingsRow.append(div);
+
+    select.addEventListener("change", () => {
+      handler(select.value as T);
+    });
+  }
+
+  /** handler が false を返した場合は入力欄をエラー表示にする */
+  public addTextInput(label: string, val: string, type: "text" | "number" | "url", placeholder: string | null, description: string | null, handler: (val: string) => boolean) {
+    const settingsRow = this.getSettingsRow();
+
+    const div = document.createElement("div");
+    div.classList.add("form-group");
+    const labelElem = document.createElement("label");
+    labelElem.append(label);
+    const input = document.createElement("input");
+    input.type = type;
+    input.classList.add("form-control");
+    input.value = val;
+    if (placeholder) input.placeholder = placeholder;
+    div.append(labelElem, input);
+    this.appendDescription(div, description);
+    settingsRow.append(div);
+
+    input.addEventListener("change", () => {
+      const ok = handler(input.value);
+      div.classList.toggle("has-error", !ok);
+    });
+  }
+
+  private appendDescription(parent: HTMLElement, description: string | null) {
+    if (!description) return;
+    const descriptionDiv = document.createElement("div");
+    descriptionDiv.append(description);
+    descriptionDiv.classList.add("small");
+    descriptionDiv.classList.add("gray");
+    parent.append(descriptionDiv);
+  }
+
   public addHeader(level: 1 | 2 | 3 | 4 | 5 | 6, content: string) {
     const settingsRow = this.getSettingsRow();
 

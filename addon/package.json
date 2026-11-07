@@ -2,7 +2,7 @@
   "name": "ac-predictor",
   "version": "2.0.12",
   "author": "keymoon",
-  "description": "コンテスト中にAtCoderのパフォーマンスを予測します",
+  "description": "在 AtCoder 比赛中实时预测表现分（performance）与 Rating 变化（中文汉化版，兼容本地代理/镜像）",
   "typeRoots": [
     "types",
     "node_modules/@types"

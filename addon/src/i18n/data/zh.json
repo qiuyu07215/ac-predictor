@@ -1,0 +1,41 @@
+{
+  "config_header_text": "ac-predictor 设置",
+
+  "config_hideDuringContest_label": "比赛进行中隐藏预测",
+  "config_hideUntilFixed_label": "表现分确定前隐藏预测",
+  "config_useFinalResultOnVirtual_label": "虚拟参赛时使用最终结果计算表现分",
+  "config_useFinalResultOnVirtual_description": "勾选后，将按照当时的参赛者都已完赛的情况来计算表现分。",
+
+  "config_language_label": "界面语言",
+  "config_language_auto": "跟随 AtCoder 页面语言",
+  "config_language_reload_hint": "修改语言后刷新页面生效。",
+
+  "config_network_header": "网络 / 代理",
+  "config_dataSource_label": "自定义数据源地址",
+  "config_dataSource_description": "可选。填写能直接提供 ac-predictor-data 文件的镜像或反向代理地址（例如 http://127.0.0.1:8080/），将优先于内置数据源使用；留空则依次尝试 data.ac-predictor.com、raw.githubusercontent.com、cdn.jsdelivr.net。注意：这里不是 Clash / v2rayN 等 HTTP 代理端口——浏览器或系统代理会自动生效，无需在此填写。",
+  "config_dataSource_placeholder": "留空使用内置数据源",
+  "config_requestTimeout_label": "数据源请求超时（秒）",
+  "config_requestTimeout_description": "单个数据源超过该时间未响应即切换到下一个。代理较慢时可适当调大。",
+
+  "config_dropdown": "ac-predictor 设置",
+  "config_close": "关闭",
+
+  "standings_performance_column_label": "表现分",
+  "standings_rate_change_column_label": "Rating 变化",
+
+  "standings_click_to_compute_label": "点击计算",
+  "standings_not_provided_label": "暂不提供",
+  "standings_unrated_label": "不计分",
+  "standings_loading_label": "加载中…",
+  "standings_error_label": "加载失败",
+  "standings_hover_for_details_label": "（悬停查看详情）",
+
+  "estimator_title": "Rating 估算器",
+  "estimator_swap": "互换",
+  "estimator_tweet": "分享到 X",
+  "estimator_performance": "表现分",
+  "estimator_reached_rating": "可达 Rating",
+  "estimator_target_rating": "目标 Rating",
+  "estimator_required_performance": "所需表现分",
+  "estimator_tweet_handle": "AtCoder ID"
+}

@@ -1,3 +1,4 @@
+import { fetchAtCoderJson } from "../util/request";
 import { unpositivizeRating } from "../domain/rating";
 import Cache from "./cache";
 import { addHandler } from "./mitm";
@@ -109,11 +110,7 @@ const cache = new Cache<Standings>(STANDINGS_CACHE_DURATION);
 export default async function getVirtualStandings(contestScreenName: string, showGhost: boolean): Promise<StandingsWrapper> {
   const cacheKey = createCacheKey(contestScreenName, showGhost);
   if (!cache.has(cacheKey)) {
-    const result = await fetch(`https://atcoder.jp/contests/${contestScreenName}/standings/virtual/json${showGhost ? "?showGhost=true" : ""}`);
-    if (!result.ok) {
-      throw new Error(`Failed to fetch standings: ${result.status}`);
-    }
-    cache.set(cacheKey, await result.json());
+    cache.set(cacheKey, await fetchAtCoderJson<Standings>(`/contests/${contestScreenName}/standings/virtual/json${showGhost ? "?showGhost=true" : ""}`));
   }
   return new StandingsWrapper(cache.get(cacheKey)!);
 }

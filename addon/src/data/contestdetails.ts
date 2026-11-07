@@ -1,12 +1,9 @@
+import { fetchDataJson } from "../util/request";
 import Range from "../util/range";
 import ContestDetails from "../domain/contestdetails";
 
 export default async function getContestDetails(): Promise<ContestDetails[]> {
-  const result = await fetch(`https://data.ac-predictor.com/contest-details.json`);
-  if (!result.ok) {
-    throw new Error(`Failed to fetch contest details: ${result.status}`);
-  }
-  const parsed = await result.json();
+  const parsed = await fetchDataJson<any[]>(`contest-details.json`);
 
   const res: ContestDetails[] = [];
   for (const elem of parsed) {

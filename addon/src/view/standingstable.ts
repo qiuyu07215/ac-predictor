@@ -40,7 +40,7 @@ function getUnratedRatingElem(result: UnratedResultData): HTMLElement {
   elem.append(
     getRatingSpan(result.oldRating),
     " ",
-    getFadedSpan(["(unrated)"])
+    getFadedSpan([`(${getTranslation("standings_unrated_label")})`])
   );
   return elem;
 }
@@ -57,13 +57,13 @@ function getDefferedRatingElem(result: DefferedResultData): HTMLElement {
   
   async function listener() {
     elem.removeEventListener("click", listener);
-    elem.replaceChildren(getFadedSpan(["loading..."]));
+    elem.replaceChildren(getFadedSpan([getTranslation("standings_loading_label")]));
     let newRating;
     try {
       newRating = await result.newRatingCalculator();
     }
     catch(e) {
-      elem.append(getSpan(["error on load"], []), document.createElement("br"), getSpan(["(hover to see details)"], ["grey", "small"]), getSpan([e!.toString()], ["my-tooltiptext"]));
+      elem.append(getSpan([getTranslation("standings_error_label")], []), document.createElement("br"), getSpan([getTranslation("standings_hover_for_details_label")], ["grey", "small"]), getSpan([e!.toString()], ["my-tooltiptext"]));
       elem.classList.add("my-tooltip");
       return;
     }
@@ -85,7 +85,7 @@ function getPerfOnlyRatingElem(result: PerfOnlyResultData): HTMLElement {
 
 function getErrorRatingElem(result: ErrorResultData): HTMLElement {
   const elem = document.createElement("div");
-  elem.append(getSpan(["error on load"], []), document.createElement("br"), getSpan(["(hover to see details)"], ["grey", "small"]), getSpan([result.message], ["my-tooltiptext"]));
+  elem.append(getSpan([getTranslation("standings_error_label")], []), document.createElement("br"), getSpan([getTranslation("standings_hover_for_details_label")], ["grey", "small"]), getSpan([result.message], ["my-tooltiptext"]));
   elem.classList.add("my-tooltip");
   return elem;
 }
@@ -123,7 +123,7 @@ async function modifyStandingsRow(row: HTMLElement, results: ResultDataProvider)
     userScreenName = null;
   }
   // TODO: この辺のロジックがここにあるの嫌だね……
-  if (userScreenName !== null && row.querySelector(".standings-username .username img[src='//img.atcoder.jp/assets/icon/ghost.svg']")) {
+  if (userScreenName !== null && row.querySelector(".standings-username .username img[src$='/assets/icon/ghost.svg']")) {
     userScreenName = `ghost:${userScreenName}`;
   }
   if (userScreenName !== null && row.classList.contains("info") && 3 <= row.children.length && row.children[2].textContent == "-") {

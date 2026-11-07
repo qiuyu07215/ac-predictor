@@ -1,3 +1,4 @@
+import { fetchAtCoderJson } from "../util/request";
 import { unpositivizeRating } from "../domain/rating";
 import Cache from "./cache";
 import { addHandler } from "./mitm";
@@ -127,11 +128,7 @@ const STANDINGS_CACHE_DURATION = 10 * 1000;
 const cache = new Cache<Standings>(STANDINGS_CACHE_DURATION);
 export default async function getStandings(contestScreenName: string): Promise<StandingsWrapper> {
   if (!cache.has(contestScreenName)) {
-    const result = await fetch(`https://atcoder.jp/contests/${contestScreenName}/standings/json`);
-    if (!result.ok) {
-      throw new Error(`Failed to fetch standings: ${result.status}`);
-    }
-    cache.set(contestScreenName, await result.json());
+    cache.set(contestScreenName, await fetchAtCoderJson<Standings>(`/contests/${contestScreenName}/standings/json`));
   }
   return new StandingsWrapper(cache.get(contestScreenName)!);
 }

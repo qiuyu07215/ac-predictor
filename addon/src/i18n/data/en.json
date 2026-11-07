@@ -6,11 +6,36 @@
   "config_useFinalResultOnVirtual_label": "use final result as a performance reference during the virtual participation",
   "config_useFinalResultOnVirtual_description": "If enabled, the performance is calculated as if the original participant had already done the contest.",
 
+  "config_language_label": "language",
+  "config_language_auto": "same as AtCoder",
+  "config_language_reload_hint": "Reload the page to apply the language change.",
+
+  "config_network_header": "network / proxy",
+  "config_dataSource_label": "custom data source URL",
+  "config_dataSource_description": "Optional. A mirror or reverse proxy that serves ac-predictor-data files directly (e.g. http://127.0.0.1:8080/). It is tried first; if empty, data.ac-predictor.com, raw.githubusercontent.com and cdn.jsdelivr.net are tried in order. Note: this is not an HTTP proxy port such as Clash — your browser/system proxy is used automatically.",
+  "config_dataSource_placeholder": "leave empty to use built-in sources",
+  "config_requestTimeout_label": "data source timeout (seconds)",
+  "config_requestTimeout_description": "If a data source does not respond within this time, the next one is tried. Increase it if your proxy is slow.",
+
   "config_dropdown": "ac-predictor",
+  "config_close": "close",
 
   "standings_performance_column_label": "perf",
   "standings_rate_change_column_label": "rating delta",
-  
+
   "standings_click_to_compute_label": "click to compute",
-  "standings_not_provided_label": "not provided"
+  "standings_not_provided_label": "not provided",
+  "standings_unrated_label": "unrated",
+  "standings_loading_label": "loading...",
+  "standings_error_label": "error on load",
+  "standings_hover_for_details_label": "(hover to see details)",
+
+  "estimator_title": "Estimator",
+  "estimator_swap": "swap",
+  "estimator_tweet": "Tweet",
+  "estimator_performance": "performance",
+  "estimator_reached_rating": "reached rating",
+  "estimator_target_rating": "target rating",
+  "estimator_required_performance": "required performance",
+  "estimator_tweet_handle": "AtCoder ID"
 }

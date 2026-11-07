@@ -1,3 +1,4 @@
+import { fetchAtCoderJson } from "../util/request";
 import Cache from "./cache";
 import { addHandler } from "./mitm";
 
@@ -104,11 +105,7 @@ const STANDINGS_CACHE_DURATION = 10 * 1000;
 const cache = new Cache<Standings>(STANDINGS_CACHE_DURATION);
 export default async function getExtendedStandings(contestScreenName: string): Promise<StandingsWrapper> {
   if (!cache.has(contestScreenName)) {
-    const result = await fetch(`https://atcoder.jp/contests/${contestScreenName}/standings/extended/json`);
-    if (!result.ok) {
-      throw new Error(`Failed to fetch extended standings: ${result.status}`);
-    }
-    cache.set(contestScreenName, await result.json());
+    cache.set(contestScreenName, await fetchAtCoderJson<Standings>(`/contests/${contestScreenName}/standings/extended/json`));
   }
   return new StandingsWrapper(cache.get(contestScreenName)!);
 }

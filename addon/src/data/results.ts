@@ -1,3 +1,4 @@
+import { fetchAtCoderJson } from "../util/request";
 import Cache from "./cache";
 import { addHandler } from "./mitm";
 
@@ -65,11 +66,7 @@ const RESULTS_CACHE_DURATION = 10 * 1000;
 const cache = new Cache<Result[]>(RESULTS_CACHE_DURATION);
 export default async function getResults(contestScreenName: string): Promise<ResultsWrapper> {
   if (!cache.has(contestScreenName)) {
-    const result = await fetch(`https://atcoder.jp/contests/${contestScreenName}/results/json`);
-    if (!result.ok) {
-      throw new Error(`Failed to fetch results: ${result.status}`);
-    }
-    cache.set(contestScreenName, await result.json());
+    cache.set(contestScreenName, await fetchAtCoderJson<Result[]>(`/contests/${contestScreenName}/results/json`));
   }
   return new ResultsWrapper(cache.get(contestScreenName)!);
 }

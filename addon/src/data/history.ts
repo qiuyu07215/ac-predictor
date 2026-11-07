@@ -1,3 +1,4 @@
+import { fetchAtCoderJson } from "../util/request";
 import { getWeight } from "../domain/rating";
 import Cache from "./cache";
 
@@ -50,11 +51,7 @@ const cache = new Cache<History[]>(HISTORY_CACHE_DURATION);
 export default async function getHistory(userScreenName: string, contestType: ("algorithm" | "heuristic")="algorithm"): Promise<HistoriesWrapper> {
   const key = `${userScreenName}:${contestType}`;
   if (!cache.has(key)) {
-    const result = await fetch(`https://atcoder.jp/users/${userScreenName}/history/json?contestType=${contestType}`);
-    if (!result.ok) {
-      throw new Error(`Failed to fetch history: ${result.status}`);
-    }
-    cache.set(key, await result.json());
+    cache.set(key, await fetchAtCoderJson<History[]>(`/users/${encodeURIComponent(userScreenName)}/history/json?contestType=${contestType}`));
   }
   return new HistoriesWrapper(cache.get(key)!);
 }

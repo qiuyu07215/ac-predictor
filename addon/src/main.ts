@@ -6,26 +6,33 @@ import VirtualStandingsPageController from "./controller/virtualstandingspagecon
 import isExtendedStandingsPage from "./parse/isExtendedStandingsPage";
 import isStandingsPage from "./parse/isStandingsPage";
 import isVirtualStandingsPage from "./parse/isVirtualStandingsPage";
+import isAtCoderPage from "./parse/isAtCoderPage";
 
-{
-  const controller = new ConfigController();
-  controller.register();
-
-  add();
+if (isAtCoderPage()) {
+  main();
 }
 
-if (isStandingsPage()) {
-  const controller = new StandingsPageController();
-  controller.register();
-}
+function main() {
+  {
+    const controller = new ConfigController();
+    controller.register();
 
-if (isVirtualStandingsPage()) {
-  const controller = new VirtualStandingsPageController();
-  controller.register();
-}
+    add();
+  }
 
-if (isExtendedStandingsPage()) {
-  const controller = new ExtendedStandingsPageController();
-  controller.register();
+  if (isStandingsPage()) {
+    const controller = new StandingsPageController();
+    controller.register();
+  }
+
+  if (isVirtualStandingsPage()) {
+    const controller = new VirtualStandingsPageController();
+    controller.register();
+  }
+
+  if (isExtendedStandingsPage()) {
+    const controller = new ExtendedStandingsPageController();
+    controller.register();
+  }
 }
 
